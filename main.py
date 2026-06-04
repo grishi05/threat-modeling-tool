@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from langchain_ollama import OllamaLLM
+from openai import OpenAI
 from owasp_mapper import map_risks
 from report_generator import generate_report
 from azure.storage.blob import BlobServiceClient
@@ -25,8 +25,7 @@ app.add_middleware(
 )
 
 
-llm = OllamaLLM(model="llama3.1")
-
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
 CONTAINER_NAME = "threat-reports"
@@ -56,7 +55,11 @@ RECOMMENDATIONS:
 
 Do not include descriptions, explanations, or bullet sub-points. Each line must be a single concise item."""
 
-    llm_response = llm.invoke(prompt)
+    response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": prompt}]
+    )
+    llm_response = response.choices[0].message.content
     risks = map_risks(llm_response)
     report = generate_report(input.app_description, llm_response, risks)
 
