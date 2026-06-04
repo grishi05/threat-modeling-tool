@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 import uuid
 
 
-load_dotenv()
+load_dotenv(override=False)
 
 
 app = FastAPI(title="AI Threat Modeling Tool")
@@ -26,6 +26,10 @@ app.add_middleware(
 
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+if not api_key:
+    raise ValueError("OPENAI_API_KEY environment variable is not set")
+client = OpenAI(api_key=api_key)
+
 
 AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
 CONTAINER_NAME = "threat-reports"
