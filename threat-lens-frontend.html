@@ -357,7 +357,7 @@ footer{border-top:1px solid var(--color-border);padding:var(--space-4) var(--spa
     <div class="page-header">
       <div class="badge">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>
-        Powered by Ollama · Local AI
+        Powered by OpenAI · Microsoft Azure Cloud
       </div>
       <h1>AI Threat Modeling</h1>
       <p>Describe your application and get an OWASP-aligned security threat analysis in seconds.</p>
@@ -524,7 +524,7 @@ footer{border-top:1px solid var(--color-border);padding:var(--space-4) var(--spa
 
   </main>
 
-  <footer>ThreatLens · Running locally · Your data never leaves your machine</footer>
+  <footer>ThreatLens · Hosted on Azure</footer>
 </div>
 
 <script>
@@ -814,7 +814,7 @@ analyzeBtn.addEventListener('click', async ()=>{
   analyzeBtn.disabled=true;
 
   try{
-    const res = await fetch('http://127.0.0.1:8000/analyze', {
+    const res = await fetch('https://threatlens-api-a9g2gsc3b5d2dtgp.eastus-01.azurewebsites.net/analyze', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({app_description: desc})
