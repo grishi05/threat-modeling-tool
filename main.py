@@ -5,6 +5,7 @@ from openai import OpenAI
 from owasp_mapper import map_risks
 from report_generator import generate_report
 from azure.storage.blob import BlobServiceClient
+from fastapi.responses import FileResponse
 import os
 from dotenv import load_dotenv
 import uuid
@@ -38,6 +39,9 @@ CONTAINER_NAME = "threat-reports"
 class AppInput(BaseModel):
     app_description: str
 
+@app.get("/")
+def serve_frontend():
+    return FileResponse("threat-lens-frontend.html")
 
 @app.post("/analyze")
 async def analyze(input: AppInput):
