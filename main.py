@@ -88,8 +88,3 @@ Do not include descriptions, explanations, or bullet sub-points. Each line must 
         "full_analysis": llm_response,
         "report_filename": filename
     }
-
-
-@app.get("/")
-def root():
-    return {"status": "AI Threat Modeling Tool is running"}
