@@ -1,21 +1,19 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from openai import OpenAI
 from owasp_mapper import map_risks
 from report_generator import generate_report
 from azure.storage.blob import BlobServiceClient
-from fastapi.responses import FileResponse
 import os
 from dotenv import load_dotenv
 import uuid
 
-
 load_dotenv(override=False)
 
-
 app = FastAPI(title="AI Threat Modeling Tool")
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -25,23 +23,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     raise ValueError("OPENAI_API_KEY environment variable is not set")
 client = OpenAI(api_key=api_key)
 
-
 AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
 CONTAINER_NAME = "threat-reports"
-
 
 class AppInput(BaseModel):
     app_description: str
 
 @app.get("/")
 def serve_frontend():
-    return FileResponse("threat-lens-frontend.html")
+    return FileResponse("static/index.html")
 
 @app.post("/analyze")
 async def analyze(input: AppInput):
@@ -64,14 +61,13 @@ RECOMMENDATIONS:
 Do not include descriptions, explanations, or bullet sub-points. Each line must be a single concise item."""
 
     response = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[{"role": "user", "content": prompt}]
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}]
     )
     llm_response = response.choices[0].message.content
     risks = map_risks(llm_response)
     report = generate_report(input.app_description, llm_response, risks)
 
-    # Save report to Azure Blob Storage
     report_id = str(uuid.uuid4())
     filename = f"report-{report_id}.md"
 
