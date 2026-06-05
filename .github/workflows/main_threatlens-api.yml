@@ -39,7 +39,6 @@ jobs:
           name: python-app
           path: |
             .
-            !antenv/
             !.git/
             !.github/
 
