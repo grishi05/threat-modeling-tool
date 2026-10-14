@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ThreatLens , AI Threat Modeling</title>
+<title>ThreatLens · AI Threat Modeling</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -193,7 +193,7 @@ textarea::placeholder{color:var(--color-text-faint)}
 }
 .threat-item:hover{box-shadow:var(--shadow-md)}
 .threat-header{
-  display:flex;align-items:center;gap:var(--space-3);
+  display:flex;align-items:center;gap:var(--space-3);width:100%;text-align:left;
   padding:var(--space-4) var(--space-5);cursor:pointer;
   user-select:none;
 }
@@ -324,10 +324,10 @@ footer{border-top:1px solid var(--color-border);padding:var(--space-4) var(--spa
 .owasp-body{display:none}
 .owasp-body.visible{display:block}
 
-/* vuln list in threat cards */
-.vuln-list{list-style:none;display:flex;flex-direction:column;gap:var(--space-2)}
-.vuln-list li{display:flex;gap:var(--space-2);font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.6}
-.vuln-list li::before{content:"⚠";font-size:.7em;color:var(--color-warning);flex-shrink:0;margin-top:3px}
+.owasp-group-title{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--color-text-muted);margin:var(--space-6) 0 var(--space-3)}
+.owasp-group-title:first-of-type{margin-top:0}
+.no-threats{text-align:center;padding:var(--space-8);color:var(--color-text-faint);font-size:var(--text-sm)}
 
 </style>
 </head>
@@ -369,18 +369,92 @@ footer{border-top:1px solid var(--color-border);padding:var(--space-4) var(--spa
       <div class="owasp-toggle-row" id="owasp-toggle-row">
         <div class="card-title" style="margin-bottom:0">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          <span class="owasp-toggle-label">OWASP Top 10 , Know the Threats</span>
+          <span class="owasp-toggle-label">OWASP reference: LLM Top 10 (2025) and Web Top 10 (2021)</span>
         </div>
         <button class="owasp-toggle-btn" id="owasp-toggle-btn">Show ▾</button>
       </div>
       <div class="owasp-body" id="owasp-body">
-      <p class="owasp-intro">Every web and AI application is vulnerable to some combination of these 10 risk categories. After your analysis, refer back here to understand the real-world impact of any identified vulnerability.</p>
+      <p class="owasp-intro">ThreatLens tags each threat with one OWASP category. Risks that come from LLM or AI features use the OWASP Top 10 for LLM Applications (2025); everything else uses the OWASP Top 10 for web applications (2021).</p>
+      <div class="owasp-group-title">OWASP Top 10 for LLM Applications 2025</div>
+      <div class="owasp-grid">
+        <div class="owasp-item critical">
+          <span class="owasp-id">LLM01</span>
+          <div>
+            <div class="owasp-name">Prompt Injection</div>
+            <div class="owasp-desc">Crafted input, typed directly or hidden in documents and web pages the model reads, overrides the model's instructions.</div>
+          </div>
+        </div>
+        <div class="owasp-item critical">
+          <span class="owasp-id">LLM02</span>
+          <div>
+            <div class="owasp-name">Sensitive Information Disclosure</div>
+            <div class="owasp-desc">The model reveals personal data, secrets, or proprietary information from its context, training data, or connected systems.</div>
+          </div>
+        </div>
+        <div class="owasp-item high">
+          <span class="owasp-id">LLM03</span>
+          <div>
+            <div class="owasp-name">Supply Chain</div>
+            <div class="owasp-desc">Compromised or unvetted models, datasets, plugins, or fine-tuning adapters bring in vulnerabilities or backdoors.</div>
+          </div>
+        </div>
+        <div class="owasp-item high">
+          <span class="owasp-id">LLM04</span>
+          <div>
+            <div class="owasp-name">Data and Model Poisoning</div>
+            <div class="owasp-desc">Tampered training, fine-tuning, or embedding data plants bias, backdoors, or wrong behavior in the model.</div>
+          </div>
+        </div>
+        <div class="owasp-item critical">
+          <span class="owasp-id">LLM05</span>
+          <div>
+            <div class="owasp-name">Improper Output Handling</div>
+            <div class="owasp-desc">Model output reaches browsers, shells, SQL, or other systems without validation, enabling XSS, injection, or code execution.</div>
+          </div>
+        </div>
+        <div class="owasp-item high">
+          <span class="owasp-id">LLM06</span>
+          <div>
+            <div class="owasp-name">Excessive Agency</div>
+            <div class="owasp-desc">An agent has more tools, permissions, or autonomy than it needs, so a manipulated model can take damaging actions.</div>
+          </div>
+        </div>
+        <div class="owasp-item medium">
+          <span class="owasp-id">LLM07</span>
+          <div>
+            <div class="owasp-name">System Prompt Leakage</div>
+            <div class="owasp-desc">Credentials or security logic placed in the system prompt get exposed to users who coax the model into repeating it.</div>
+          </div>
+        </div>
+        <div class="owasp-item medium">
+          <span class="owasp-id">LLM08</span>
+          <div>
+            <div class="owasp-name">Vector and Embedding Weaknesses</div>
+            <div class="owasp-desc">Retrieval (RAG) stores leak data across users or tenants, or accept poisoned documents that steer answers.</div>
+          </div>
+        </div>
+        <div class="owasp-item medium">
+          <span class="owasp-id">LLM09</span>
+          <div>
+            <div class="owasp-name">Misinformation</div>
+            <div class="owasp-desc">Confident but wrong output (hallucination) is trusted for decisions or shown to users without verification.</div>
+          </div>
+        </div>
+        <div class="owasp-item medium">
+          <span class="owasp-id">LLM10</span>
+          <div>
+            <div class="owasp-name">Unbounded Consumption</div>
+            <div class="owasp-desc">No limits on requests, input size, or tokens, which allows runaway costs, denial of service, or model extraction.</div>
+          </div>
+        </div>
+      </div>
+      <div class="owasp-group-title">OWASP Top 10 2021 (web applications)</div>
       <div class="owasp-grid">
         <div class="owasp-item critical">
           <span class="owasp-id">A01</span>
           <div>
             <div class="owasp-name">Broken Access Control</div>
-            <div class="owasp-desc">Users act outside intended permissions , attackers access other users' accounts, view sensitive data, or perform admin functions. Most common OWASP risk since 2021.</div>
+            <div class="owasp-desc">Users act outside their intended permissions: attackers reach other users' accounts, view sensitive data, or perform admin functions. The most common OWASP risk since 2021.</div>
           </div>
         </div>
         <div class="owasp-item critical">
@@ -394,21 +468,21 @@ footer{border-top:1px solid var(--color-border);padding:var(--space-4) var(--spa
           <span class="owasp-id">A03</span>
           <div>
             <div class="owasp-name">Injection</div>
-            <div class="owasp-desc">Malicious data sent as a command or query , SQL, NoSQL, OS, and LDAP injection. Attackers can steal, modify, or destroy your entire database.</div>
+            <div class="owasp-desc">Untrusted data is sent to an interpreter as part of a command or query: SQL, NoSQL, OS, and LDAP injection. Attackers can steal, modify, or destroy data.</div>
           </div>
         </div>
         <div class="owasp-item high">
           <span class="owasp-id">A04</span>
           <div>
             <div class="owasp-name">Insecure Design</div>
-            <div class="owasp-desc">Flaws baked into the architecture itself , not just code bugs. Missing threat modeling, insecure design patterns, and lack of security requirements at design time.</div>
+            <div class="owasp-desc">Flaws in the architecture itself rather than in the code: missing threat modeling, insecure design patterns, and no security requirements at design time.</div>
           </div>
         </div>
         <div class="owasp-item high">
           <span class="owasp-id">A05</span>
           <div>
             <div class="owasp-name">Security Misconfiguration</div>
-            <div class="owasp-desc">Default credentials, unnecessary features enabled, missing patches, overly permissive cloud storage. The broadest category , affects 90%+ of applications.</div>
+            <div class="owasp-desc">Default credentials, unnecessary features enabled, missing hardening, overly permissive cloud storage. One of the most widespread categories.</div>
           </div>
         </div>
         <div class="owasp-item high">
@@ -429,21 +503,21 @@ footer{border-top:1px solid var(--color-border);padding:var(--space-4) var(--spa
           <span class="owasp-id">A08</span>
           <div>
             <div class="owasp-name">Software & Data Integrity Failures</div>
-            <div class="owasp-desc">Untrusted plugins, libraries, or CI/CD pipeline steps. Includes insecure deserialization , attackers can execute arbitrary code via malicious data objects.</div>
+            <div class="owasp-desc">Untrusted plugins, libraries, updates, or CI/CD pipeline steps. Includes insecure deserialization, where malicious data objects can lead to code execution.</div>
           </div>
         </div>
         <div class="owasp-item medium">
           <span class="owasp-id">A09</span>
           <div>
             <div class="owasp-name">Security Logging & Monitoring Failures</div>
-            <div class="owasp-desc">Without proper logs and alerts, breaches go undetected for months. Average breach detection time is 204 days , logs are your only forensic evidence.</div>
+            <div class="owasp-desc">Without proper logs and alerts, breaches can go undetected for months, and investigators have no evidence to reconstruct what happened.</div>
           </div>
         </div>
         <div class="owasp-item low">
           <span class="owasp-id">A10</span>
           <div>
             <div class="owasp-name">Server-Side Request Forgery (SSRF)</div>
-            <div class="owasp-desc">Attacker tricks the server into making requests to internal systems , used to access cloud metadata, internal APIs, or pivot deeper into your infrastructure.</div>
+            <div class="owasp-desc">An attacker makes the server send requests to internal systems, reaching cloud metadata endpoints, internal APIs, or other infrastructure.</div>
           </div>
         </div>
       </div>
@@ -484,7 +558,7 @@ footer{border-top:1px solid var(--color-border);padding:var(--space-4) var(--spa
     <div id="loading-state" aria-live="polite">
       <div class="spinner"></div>
       <p class="loading-text">Analyzing your application...</p>
-      <p class="loading-sub">This usually takes 15–40 seconds depending on your GPU</p>
+      <p class="loading-sub">Usually 5–20 seconds. The first request after the server has been idle can take longer.</p>
     </div>
 
     <!-- RESULTS -->
@@ -519,7 +593,7 @@ footer{border-top:1px solid var(--color-border);padding:var(--space-4) var(--spa
     <!-- EMPTY TIPS (shown initially) -->
     <div id="empty-state">
       <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <p>Describe your app above to get an OWASP Top 10 threat analysis</p>
+      <p>Describe your app above to get a threat analysis mapped to the OWASP LLM and Web Top 10</p>
     </div>
 
   </main>
@@ -614,52 +688,12 @@ document.getElementById('owasp-toggle-row').addEventListener('click',()=>{
   btn.textContent = visible ? 'Hide ▴' : 'Show ▾';
 });
 
-// ── OWASP ID → friendly name
-function owaspName(ref){
-  const map = {
-    'A01':'Broken Access Control','A02':'Cryptographic Failures','A03':'Injection',
-    'A04':'Insecure Design','A05':'Security Misconfiguration',
-    'A06':'Vulnerable & Outdated Components','A07':'Auth Failures',
-    'A08':'Software Integrity Failures','A09':'Logging & Monitoring Failures',
-    'A10':'SSRF','A11':'Insufficient Logging','A12':'Insecure Deserialization'
-  };
-  const key = (ref||'').match(/A\d+/i);
-  return key ? (map[key[0].toUpperCase()]||ref) : ref;
+// ── Escape model output before it touches innerHTML. The model's text is
+// untrusted (OWASP LLM05: Improper Output Handling).
+function esc(value){
+  return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-// ── Split recs into vulnerability items vs actionable recommendations
-function buildVulnList(threat){
-  // Vulnerability items: lines that start with a number+title pattern or contain OWASP refs
-  const vulnItems = [];
-  for(const r of threat.recs){
-    if(/A\d+:\d+|OWASP|^\d+\./.test(r) || (r.includes('(') && r.includes(')'))){
-      vulnItems.push(r.replace(/\*\*/g,'').replace(/^\d+\.\s*/,'').trim());
-    }
-  }
-  // Also add desc as first vulnerability item if it looks like a vuln
-  if(threat.desc && threat.desc.length > 20){
-    const cleanDesc = threat.desc.replace(/\*\*/g,'').replace(/^\d+\.\s*/,'').trim();
-    if(!vulnItems.find(v=>v.slice(0,30)===cleanDesc.slice(0,30)))
-      vulnItems.unshift(cleanDesc);
-  }
-  if(!vulnItems.length) return '<p style="font-size:var(--text-sm);color:var(--color-text-muted)">See recommendations below for identified risk areas.</p>';
-  return '<ul class="vuln-list">'+vulnItems.map(v=>`<li>${v}</li>`).join('')+'</ul>';
-}
-
-function buildRecList(threat){
-  // Recommendations: actionable items (contain verbs like implement, use, ensure, configure, conduct)
-  const actionVerbs = /^(implement|use|ensure|configure|conduct|regularly|monitor|apply|enable|restrict|validate|sanitize|encrypt|review|update|deploy|add|set|consider)/i;
-  const recItems = threat.recs.filter(r => {
-    const clean = r.replace(/\*\*/g,'').trim();
-    return actionVerbs.test(clean) || (clean.length > 20 && !/A\d+:\d+/.test(clean) && !/^\d+\./.test(clean));
-  }).slice(0,5);
-
-  if(!recItems.length) return '<p style="font-size:var(--text-sm);color:var(--color-text-muted)">Review raw output below for detailed recommendations.</p>';
-  return '<ul class="rec-list">'+recItems.map(r=>`<li>${r.replace(/\*\*/g,'').trim()}</li>`).join('')+'</ul>';
-}
-
-
-// ── Severity helpers
 function getSeverityClass(sev){
   const s=(sev||'').toLowerCase();
   if(s.includes('critical')) return 'sev-critical';
@@ -669,130 +703,51 @@ function getSeverityClass(sev){
   return 'sev-info';
 }
 
-function parseSeverityFromText(text){
-  const lower = text.toLowerCase();
-  if(lower.includes('critical')) return 'Critical';
-  if(lower.includes('high')) return 'High';
-  if(lower.includes('medium')) return 'Medium';
-  if(lower.includes('low')) return 'Low';
-  return 'Info';
-}
-
-// ── Parse the clean structured format:
-// VULNERABILITIES:\n1. Name | OWASP | Severity
-// RECOMMENDATIONS:\n1. Actionable fix
-
-function parseThreats(rawText){
-  const threats = [];
-  const lines = rawText.split('\n');
-  let inVulns = false;
-
-  for(const line of lines){
-    const t = line.trim();
-    if(/^VULNERABILITIES:/i.test(t)){ inVulns = true; continue; }
-    if(/^RECOMMENDATIONS:/i.test(t)){ inVulns = false; continue; }
-
-    if(inVulns && /^\d+\./.test(t)){
-      // Format: "1. Threat Name | A01:2021 | Severity: High"
-      const parts = t.replace(/^\d+\.\s*/,'').split('|').map(s => s.trim());
-      const title = (parts[0] || '').replace(/\*\*/g,'').trim();
-      const owasp = (parts[1] || '').trim();
-      const sevRaw = (parts[2] || '').replace(/severity:/i,'').trim();
-      const severity = sevRaw.charAt(0).toUpperCase() + sevRaw.slice(1).toLowerCase();
-      const validSev = ['Critical','High','Medium','Low'].includes(severity) ? severity : parseSeverityFromText(title + ' ' + owasp);
-      if(title.length > 3) threats.push({title, owasp, severity: validSev, desc:'', recs:[], raw:t});
-    }
-  }
-
-  // Fallback: numbered bold items if structured format not found
-  if(threats.length === 0){
-    const sections = rawText.split(/(?=\n\d+\.\s+\*\*)/);
-    for(const section of sections){
-      const trimmed = section.trim();
-      if(trimmed.length < 40) continue;
-      const lines2 = trimmed.split('\n');
-      const m = lines2[0].match(/^\d+\.\s+\*\*(.+?)\*\*/) || lines2[0].match(/^\d+\.\s+(.+)/);
-      if(!m) continue;
-      const raw = m[1].trim();
-      if(/^(i'?ll|i will|as a|in this)/i.test(raw)) continue;
-      const owasp = (raw.match(/(A\d+:\d+[^)]*)/i)||[])[1]||'';
-      const title = raw.replace(/\s*\([^)]*A\d+[^)]*\)/gi,'').replace(/\*\*/g,'').trim().slice(0,80);
-      threats.push({title, owasp, severity: parseSeverityFromText(trimmed+' '+title), desc:'', recs:[], raw:trimmed});
-    }
-  }
-
-  return threats;
-}
-
-function buildSummary(threats, rawText){
+function buildSummary(threats){
   const counts = {Critical:0, High:0, Medium:0, Low:0};
   threats.forEach(t => { if(counts[t.severity] !== undefined) counts[t.severity]++; });
-  const total = threats.length;
-
-  const summaryGrid = document.getElementById('summary-grid');
   summaryGrid.innerHTML = `
-    <div class="stat-card stat-total animate-in"><div class="stat-num">${total}</div><div class="stat-label">Total Threats</div></div>
+    <div class="stat-card stat-total animate-in"><div class="stat-num">${threats.length}</div><div class="stat-label">Total Threats</div></div>
     <div class="stat-card stat-critical animate-in"><div class="stat-num">${counts.Critical}</div><div class="stat-label">Critical</div></div>
     <div class="stat-card stat-high animate-in"><div class="stat-num">${counts.High}</div><div class="stat-label">High</div></div>
     <div class="stat-card stat-medium animate-in"><div class="stat-num">${counts.Medium}</div><div class="stat-label">Medium</div></div>
     <div class="stat-card stat-low animate-in"><div class="stat-num">${counts.Low}</div><div class="stat-label">Low</div></div>`;
 }
 
-// ── Build ONE unified results card
-function buildUnifiedCard(threats, rawText){
-  const lines = rawText.split('\n');
-
-  // Vulnerabilities: from parsed threats
-  const vulns = threats.map((t, i) => {
-    const oref = t.owasp ? ` (${t.owasp})` : '';
-    return `${i+1}. ${t.title}${oref}`;
+// ── One expandable card per threat, already sorted by severity on the server
+function renderThreats(threats){
+  threatsList.innerHTML = '';
+  if(!threats.length){
+    threatsList.innerHTML = '<div class="no-threats">No threats returned. Add more detail about features, data, users, and integrations, then try again.</div>';
+    return;
+  }
+  threats.forEach((t, i) => {
+    const item = document.createElement('div');
+    item.className = 'threat-item animate-in' + (i === 0 ? ' open' : '');
+    item.innerHTML = `
+      <button class="threat-header" type="button" aria-expanded="${i === 0}">
+        <span class="threat-severity ${getSeverityClass(t.severity)}">${esc(t.severity)}</span>
+        <span class="threat-title">${i+1}. ${esc(t.title)}</span>
+        <span class="threat-owasp">${esc(t.owasp_id || 'Unmapped')}</span>
+        <svg class="threat-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="threat-body">
+        <div class="threat-section">
+          <div class="threat-section-title">${esc(t.owasp_name ? t.owasp_name + ' · ' + t.framework : 'No OWASP category')}</div>
+          <p>${esc(t.description)}</p>
+        </div>
+        <div class="threat-section">
+          <div class="threat-section-title">Recommendation</div>
+          <ul class="rec-list"><li>${esc(t.recommendation)}</li></ul>
+        </div>
+      </div>`;
+    const header = item.querySelector('.threat-header');
+    header.addEventListener('click', () => {
+      const open = item.classList.toggle('open');
+      header.setAttribute('aria-expanded', open);
+    });
+    threatsList.appendChild(item);
   });
-
-  // Recommendations: lines under RECOMMENDATIONS: section
-  const recs = [];
-  let inRecs = false;
-  for(const line of lines){
-    const t = line.trim();
-    if(/^RECOMMENDATIONS:/i.test(t)){ inRecs = true; continue; }
-    if(inRecs && /^\d+\./.test(t)){
-      const clean = t.replace(/^\d+\.\s*/,'').replace(/\*\*/g,'').trim();
-      if(clean.length > 10) recs.push(clean);
-    }
-  }
-
-  // Fallback recs if section header not found
-  if(recs.length === 0){
-    for(const line of lines){
-      const t = line.trim();
-      const clean = t.replace(/^\d+\.\s*/,'').replace(/^[-*+]\s+/,'').replace(/\*\*/g,'').trim();
-      const isActionable = /^(implement|use|ensure|configure|conduct|regularly|monitor|apply|enable|restrict|validate|sanitize|encrypt|review|update|deploy|add|establish|develop)/i.test(clean);
-      if(isActionable && clean.length > 15) recs.push(clean);
-    }
-  }
-
-  const vulnHTML = vulns.length
-    ? `<ol class="vuln-list" style="list-style:none">${vulns.map((v,i)=>`<li>${v}</li>`).join('')}</ol>`
-    : `<p style="font-size:var(--text-sm);color:var(--color-text-muted)">No vulnerabilities parsed , see raw output below.</p>`;
-
-  const recHTML = recs.length
-    ? `<ul class="rec-list">${recs.map(r=>`<li>${r}</li>`).join('')}</ul>`
-    : `<p style="font-size:var(--text-sm);color:var(--color-text-muted)">See raw output below for recommendations.</p>`;
-
-  const card = document.createElement('div');
-  card.className = 'card animate-in';
-  card.style.marginBottom = '0';
-  card.innerHTML = `
-    <div class="threat-section" style="margin-bottom:var(--space-6)">
-      <div class="threat-section-title">Possible Vulnerabilities</div>
-      ${vulnHTML}
-    </div>
-    <hr style="border:none;border-top:1px solid var(--color-divider);margin-bottom:var(--space-5)">
-    <div class="threat-section" style="margin-bottom:0">
-      <div class="threat-section-title">Recommendations</div>
-      ${recHTML}
-    </div>`;
-
-  return card;
 }
 
 
@@ -814,35 +769,31 @@ analyzeBtn.addEventListener('click', async ()=>{
   analyzeBtn.disabled=true;
 
   try{
-    const res = await fetch('https://threatlens-api-a9g2gsc3b5d2dtgp.eastus-01.azurewebsites.net/analyze', {
+    // Same origin: the API serves this page, so no hard-coded host.
+    const res = await fetch('/analyze', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({app_description: desc})
     });
 
     if(!res.ok){
-      const errText = await res.text();
-      throw new Error(`Server error ${res.status}: ${errText}`);
+      let detail = await res.text();
+      try {
+        const body = JSON.parse(detail);
+        detail = typeof body.detail === 'string' ? body.detail : JSON.stringify(body.detail);
+      } catch { /* not JSON: keep the raw text */ }
+      throw new Error(`Server error ${res.status}: ${detail}`);
     }
 
     const data = await res.json();
-    const rawText = data.full_analysis || data.threat_report || data.report || data.result || JSON.stringify(data, null, 2);
-    lastRawResponse = rawText;
+    const threats = Array.isArray(data.threats) ? data.threats : [];
+    lastRawResponse = data.full_analysis || '';
 
     loadingState.style.display='none';
-
-    // Parse and render
-    const threats = parseThreats(rawText);
     buildSummary(threats);
+    renderThreats(threats);
 
-    threatsList.innerHTML='';
-    if(threats.length === 0){
-      threatsList.innerHTML='<div style="text-align:center;padding:var(--space-8);color:var(--color-text-faint);font-size:var(--text-sm)">No structured threats parsed , check the raw output below.</div>';
-    } else {
-      threatsList.appendChild(buildUnifiedCard(threats, rawText));
-    }
-
-    rawBox.textContent = rawText;
+    rawBox.textContent = JSON.stringify(data, null, 2);
     rawBox.classList.remove('visible');
     rawToggle.textContent = '▸ Show raw API response';
     resultsSection.style.display='block';
